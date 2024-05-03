@@ -33,12 +33,12 @@ Using [scientific-python/cookie](https://github.com/scientific-python/cookie)!
 ```console
 
 % cookiecutter gh:scientific-python/cookie
-You've downloaded /home/jpivarski/.cookiecutters/cookie before. Is it okay to 
+You've downloaded /home/jpivarski/.cookiecutters/cookie before. Is it okay to
 delete and re-download it? [y/n] (y): y
   [1/9] The name of your project (package): my-cool-package
   [2/9] The name of your (GitHub?) org (org): jpivarski-talks
-  [3/9] The url to your GitHub or GitLab repository 
-(https://github.com/jpivarski-talks/my-cool-package): 
+  [3/9] The url to your GitHub or GitLab repository
+(https://github.com/jpivarski-talks/my-cool-package):
   [4/9] Your name (My Name): Jim Pivarski
   [5/9] Your email (me@email.com): jpivarski@gmail.com
   [6/9] A short description of your project (A great package.): It's so cool!
@@ -60,5 +60,5 @@ delete and re-download it? [y/n] (y): y
     10 - Meson-python                  - Compiled C++ (also good)
     11 - Maturin                       - Compiled Rust (recommended)
     Choose from [1/2/3/4/5/6/7/8/9/10/11] (1): 1
-  [9/9] Use version control for versioning [y/n] (y): 
+  [9/9] Use version control for versioning [y/n] (y):
 ```
