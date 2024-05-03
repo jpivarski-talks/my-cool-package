@@ -40,6 +40,8 @@ test = [
 dev = [
   "pytest >=6",
   "pytest-cov >=3",
+  "matplotlib",
+  "IPython",
 ]
 docs = [
   "sphinx>=7.0",
