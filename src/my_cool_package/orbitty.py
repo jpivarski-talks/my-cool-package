@@ -260,13 +260,9 @@ class System:
             frame_ms (int): Number of milliseconds between each frame.
         """
 
-        import matplotlib.pyplot as plt  # pylint: disable=import-outside-toplevel, import-error
-        from IPython.display import (
-            HTML,  # pylint: disable=import-outside-toplevel, import-error
-        )
-        from matplotlib import (
-            animation,  # pylint: disable=import-outside-toplevel, import-error
-        )
+        import matplotlib.pyplot as plt  # pylint: disable=E0401, C0415
+        from IPython.display import HTML  # pylint: disable=E0401, C0415
+        from matplotlib import animation  # pylint: disable=E0401, C0415
 
         fig, ax = plt.subplots(figsize=figsize)
 
