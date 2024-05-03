@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Literal
 
 import numpy as np
 import numpy.typing as npt
@@ -9,6 +9,34 @@ FloatingPoint = np.dtype[np.floating[Any]]
 
 
 class System:
+    """
+    Represents a system of gravitating particles.
+
+    There are two constructors:
+
+        System(masses, positions, momenta)
+
+    takes explicit masses, positions, and momenta, while
+
+        System.random(num_particles, num_dimensions, mass_mean, mass_width, x_width, p_width)
+
+    takes parameters for random distributions and randomly generates particles.
+
+    The gravitational scaling depends on the number of dimensions: there must be
+    at least 2 dimensions, and a 2-dimensional system obeys a 1/r law, a 3-dimensional
+    system obeys a 1/r^2 (inverse square) law, etc.
+
+    The ``G`` attribute is the gravitational constant (scales the masses) and
+    ``min_distance`` prevents gravitational forces from getting too large by
+    truncating small distances to a specified minimum. (Particles are not
+    infinitesimal points.)
+
+    The ``step`` and ``steps`` methods run the simulation, changing the System's
+    internal state, and ``plot`` returns the result as a Matplotlib animation.
+
+    If Matplotlib or IPython is not installed, ``plot`` will raise a ModuleNotFoundError.
+    """
+
     G: float = 3
     min_distance: float = 0.1
 
@@ -30,6 +58,25 @@ class System:
         p_width: float,
         rng: None | np.random.Generator = None,
     ) -> System:
+        """
+        Generate a system of gravitating particles randomly.
+
+        Args:
+            num_particles (int): The number of particles to generate.
+            num_dimensions (int): The number of dimensions in each particle's
+                positions and momenta.
+            mass_mean (float): The mean value of particle mass, generated with
+                a gamma distribution.
+            mass_width (float): The "theta" parameter for the mass's gamma
+                distribution. The variance of the masses is theta times the mean.
+            x_width (float): The "sigma" (standard deviation) of positions,
+                generated as a normal (Gaussian) distribution with zero mean.
+            p_width (float): The "sigma" (standard deviation) of momenta,
+                generated as a normal (Gaussian) distribution with zero mean.
+            rng (None or np.random.Generator): A random number generator from NumPy.
+                If None, a ``np.random.default_rng`` is generated instead.
+        """
+
         if rng is None:
             rng = np.random.default_rng()
 
@@ -39,6 +86,19 @@ class System:
         return cls(m, x, p)
 
     def __init__(self, m: npt.ArrayLike, x: npt.ArrayLike, p: npt.ArrayLike):
+        """
+        Initialize a system of gravitating particles with explicit values.
+
+        Args:
+            m (npt.ArrayLike): Ordered collection of masses (1-dimensional).
+            x (npt.ArrayLike): Collection of positions in the same order.
+                The first axis has one subarry per particle; the second axis
+                has one position in each dimension.
+            p (npt.ArrayLike): Collection of momenta in the same order.
+                The first axis has one subarry per particle; the second axis
+                has one momentum in each dimension.
+        """
+
         self.x, self.p = np.broadcast_arrays(x, p)
         assert self.x.shape == self.p.shape
         if len(self.x.shape) != 2:
@@ -73,6 +133,10 @@ class System:
         self.history: list[System.Step] = [self.Step(0, self.x, self.p)]
 
     class Step:
+        """
+        Represents one time-step in the System's ``history``.
+        """
+
         def __init__(
             self,
             t: float,
@@ -89,14 +153,29 @@ class System:
 
     @property
     def num_particles(self) -> int:
+        """
+        The number of particles in the System.
+        """
+
         return self.x.shape[0]
 
     @property
     def num_dimensions(self) -> int:
+        """
+        The number of dimensions in each position and momentum.
+        """
+
         return self.x.shape[1]  # type: ignore[no-any-return]
 
     @property
     def forces(self) -> np.ndarray[tuple[int, int], FloatingPoint]:
+        """
+        The total force, as a vector on each particle, due to gravitational
+        attraction to all other particles in the System.
+
+        This array has the same shape as ``x`` and ``p``.
+        """
+
         # indexes to pick out particle 1 and particle 2
         p1, p2 = np.triu_indices(len(self.x), k=1)
         # pairwise (pw) displacements between all particle pairs
@@ -120,6 +199,19 @@ class System:
         return total_force
 
     def step(self, dt: float = 0.1) -> None:
+        """
+        Simulate the System for one time-step.
+
+        Args:
+            dt (float): Time interval to simulate. The smaller this value is,
+                the more precise the simulation will be.
+
+        Uses a kick-drift-kick method to control numerical error. Consequently,
+        this function calls ``forces`` twice.
+
+        This method changes the state of the System, including its ``history``.
+        """
+
         half_dt = dt / 2
         # half kick: update p by a half time-step using current positions
         self.p = self.p + self.forces * half_dt
@@ -131,19 +223,46 @@ class System:
         self.history.append(self.Step(self.history[-1].t + dt, self.x, self.p))
 
     def steps(self, n: int, dt: float = 0.01) -> None:
+        """
+        Simulate the System for ``n`` time-steps.
+
+        Args:
+            n (int): Number of time-steps.
+            dt (float): Time interval to simulate. The smaller this value is,
+                the more precise the simulation will be.
+
+        This method changes the state of the System, including its ``history``.
+        """
+
         for _ in range(n):
             self.step(dt=dt)
 
     def plot(
         self,
         figsize: tuple[int, int] = (5, 5),
-        method: str = "to_jshtml",
+        method: Literal["to_jshtml", "to_html5_video"] = "to_jshtml",
         num_frames: int = 100,
         frame_ms: int = 50,
     ) -> Any:
-        import matplotlib.pyplot as plt
-        from IPython.display import HTML
-        from matplotlib import animation
+        """
+        Present the time-evolution of the System as a Matplotlib animation.
+
+        Be sure to call ``step`` or ``steps`` before this function, so that there
+        is something to plot!
+
+        Args:
+            figsize (tuple[int, int]): Matplotlib figure size.
+            method ("to_jshtml", "to_html5_video"): Name of the animation-to-HTML
+                method. ``to_jshtml`` always works, and ``to_html5_video`` works
+                if video codecs are available (JupyterLab but not JupyterLite).
+            num_frames (int): Number of frames to render in the animation, which
+                can be fewer than the number of simulated time-steps.
+            frame_ms (int): Number of milliseconds between each frame.
+        """
+
+        import matplotlib.pyplot as plt  # pylint: disable=import-outside-toplevel
+        from IPython.display import HTML  # pylint: disable=import-outside-toplevel
+        from matplotlib import animation  # pylint: disable=import-outside-toplevel
 
         fig, ax = plt.subplots(figsize=figsize)
 
