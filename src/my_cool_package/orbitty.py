@@ -176,7 +176,7 @@ class System:
         This array has the same shape as ``x`` and ``p``.
         """
 
-        # indexes to pick out particle 1 and particle 2
+        # indexes to pick out (particle 1, particle 2) pairs, for all pairs
         p1, p2 = np.triu_indices(len(self.x), k=1)
         # pairwise (pw) displacements between all particle pairs
         pw_displacement = self.x[p2] - self.x[p1]
@@ -237,6 +237,54 @@ class System:
         for _ in range(n):
             self.step(dt=dt)
 
+    @property
+    def t_history(self):
+        """
+        Get the history of time-steps as an array.
+
+        The 1 axis is
+
+        * time-steps
+        """
+
+        return np.array([step.t for step in self.history])
+
+    @property
+    def x_history(self):
+        """
+        Get the history of x positions as an array.
+
+        The 3 axes are
+
+        * time-steps
+        * particles
+        * dimensions
+        """
+
+        x = np.empty((len(self.history), self.num_particles, 2))
+        for i, step in enumerate(self.history):
+            for j in range(self.num_particles):
+                x[i, j, :] = step.x[j, :2]
+        return x
+
+    @property
+    def p_history(self):
+        """
+        Get the history of p momenta as an array.
+
+        The 3 axes are
+
+        * time-steps
+        * particles
+        * dimensions
+        """
+
+        p = np.empty((len(self.history), self.num_particles, 2))
+        for i, step in enumerate(self.history):
+            for j in range(self.num_particles):
+                p[i, j, :] = step.p[j, :2]
+        return p
+
     def plot(
         self,
         figsize: tuple[int, int] = (5, 5),
@@ -266,17 +314,15 @@ class System:
 
         fig, ax = plt.subplots(figsize=figsize)
 
-        x = np.empty((len(self.history), self.num_particles, 2))
-        for i, step in enumerate(self.history):
-            for j in range(self.num_particles):
-                x[i, j, :] = step.x[j, :2]
+        x = self.x_history
 
         x0 = np.mean(x[:, :, 0])
         y0 = np.mean(x[:, :, 1])
         scale = np.percentile(np.max(abs(x), axis=0), 75) * 1.5
         ax.set(xlim=(x0 - scale, x0 + scale), ylim=(y0 - scale, y0 + scale))
 
-        x = x[:: len(x) // num_frames]
+        if len(x) > num_frames:
+            x = x[:: len(x) // num_frames]
 
         lines = []
         for j in range(self.num_particles):
@@ -291,7 +337,7 @@ class System:
             return [*lines, dots]
 
         ani = animation.FuncAnimation(
-            fig=fig, func=update, frames=num_frames, interval=frame_ms, blit=True
+            fig=fig, func=update, frames=len(x), interval=frame_ms, blit=True
         )
 
         out = HTML(getattr(ani, method)())

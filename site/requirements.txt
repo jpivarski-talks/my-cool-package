@@ -4,3 +4,4 @@ jupyterlite-pyodide-kernel
 matplotlib
 notebook
 numpy
+pytest
