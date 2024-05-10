@@ -31,4 +31,4 @@ def test_values(arg, expected):
 
 def test_random(random_angles):
     for x in random_angles:
-        assert old.sine(x)**2 + old.cosine(x)**2 == pytest.approx(1)
+        assert old.sine(x) ** 2 + old.cosine(x) ** 2 == pytest.approx(1)

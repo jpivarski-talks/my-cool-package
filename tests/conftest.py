@@ -5,7 +5,7 @@ import random
 import pytest
 
 
-@pytest.fixture
+@pytest.fixture()
 def random_angles():
     random.seed(12345)
     out = []

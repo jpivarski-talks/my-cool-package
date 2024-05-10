@@ -109,6 +109,10 @@ ignore_missing_imports = true
 module = "IPython.*"
 ignore_missing_imports = true
 
+[[tool.mypy.overrides]]
+module = "hypothesis.*"
+ignore_missing_imports = true
+
 
 [tool.ruff]
 src = ["src"]
