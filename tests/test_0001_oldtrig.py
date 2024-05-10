@@ -25,8 +25,13 @@ from my_cool_package import oldtrig as old
         (370, 0.17364817766693033),
     ],
 )
-def test_values(arg, expected):
+def test_good_values(arg, expected):
     assert old.sine(arg) == pytest.approx(expected)
+
+
+def test_bad_values():
+    with pytest.raises(ValueError, match="math domain error"):
+        old.sine(math.inf)
 
 
 def test_random(random_angles):
