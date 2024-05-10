@@ -27,3 +27,8 @@ from my_cool_package import oldtrig as old
 )
 def test_values(arg, expected):
     assert old.sine(arg) == pytest.approx(expected)
+
+
+def test_random(random_angles):
+    for x in random_angles:
+        assert old.sine(x)**2 + old.cosine(x)**2 == pytest.approx(1)
