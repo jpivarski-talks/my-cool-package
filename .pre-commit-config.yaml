@@ -63,7 +63,8 @@ repos:
         exclude: >
           (?x)^(
               .*\.js|
-              .*\.pde
+              .*\.pde|
+              .*\.ipynb
           )$
 
   - repo: https://github.com/shellcheck-py/shellcheck-py

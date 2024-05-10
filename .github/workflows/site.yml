@@ -21,6 +21,7 @@ jobs:
         run: |
           python -m pip install -r requirements.txt
           cp -a ../src/my_cool_package files/
+          cp -a ../src/tests files/
           echo "__version__ = version = '"`git rev-parse --short HEAD`"'; __version_tuple__ = version_tuple = (version,)" > files/my_cool_package/_version.py
       - name: Build the JupyterLite site
         working-directory: site

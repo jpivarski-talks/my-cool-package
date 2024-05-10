@@ -1,3 +1,4 @@
+hypothesis
 jupyterlab
 jupyterlite-core
 jupyterlite-pyodide-kernel
