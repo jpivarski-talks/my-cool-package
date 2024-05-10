@@ -31,11 +31,11 @@ String lab;
 
 void setup() {
   size(800, 364, P2D);
- 
+
   }
 
 void draw() {
-  
+
 //Background
 background(0,0,0,0);
 
@@ -72,7 +72,7 @@ if (showCOS) {
   if (showLABELS) {lab="Cos";} else {lab="";}
   if (showVALUES) {lab=lab+" "+nf(cos(angle),1,3);}
   if (showLABELS||showVALUES)
-                  {  
+                  {
                    textSize(14);
                    textAlign(CENTER, BOTTOM);
                    fill(255,0,0);
@@ -87,7 +87,7 @@ if (showSIN) {
   line(MX+(R*cos(angle)),MY,MX+(R*cos(angle)),MY-(R*sin(angle)));
   fill(0,255,0);rect(BL+BW+3,leg(4),7,7);
   if (showLABELS) {lab="Sin";} else {lab="";}
-  if (showVALUES) {lab=lab+" "+nf(sin(angle),1,3);}  
+  if (showVALUES) {lab=lab+" "+nf(sin(angle),1,3);}
   if (showLABELS||showVALUES)
                   {
                    textSize(14);
@@ -104,14 +104,14 @@ if (showVERSIN) {
   stroke(128,64,255);
   line(MX+(R*cos(angle)),MY,MX+R,MY);
   fill(128,64,255);rect(BL+BW+3,leg(9),7,7);
-  if (showLABELS) {lab="Versin";} else {lab="";} 
+  if (showLABELS) {lab="Versin";} else {lab="";}
   if (showVALUES) {lab=lab+" "+nf(1-cos(angle),1,3);}
   if (showLABELS||showVALUES)
                   {
                    textSize(14);
                    textAlign(CENTER, TOP);
                    fill(128,64,255);
-                   text(lab,MX+R-(R*(1-cos(angle))/2), MY+2);  
+                   text(lab,MX+R-(R*(1-cos(angle))/2), MY+2);
                   }
 }
 
@@ -124,17 +124,17 @@ if (showSEC) {
   v=1/cos(angle);
   strokeWeight(1);
   line(MX,MY,MX+(R*v),MY);
-  
-  if (showLABELS) {lab="Sec";} else {lab="";} 
+
+  if (showLABELS) {lab="Sec";} else {lab="";}
   if (showVALUES) {lab=lab+" "+nf(v,1,3);}
   if (showLABELS||showVALUES)
                   {
                    textSize(14);
                    textAlign(CENTER, TOP);
                    fill(255,255,0);
-                   text(lab,MX+(v*R*.5), MY+2);  
+                   text(lab,MX+(v*R*.5), MY+2);
                   }
-  }                 
+  }
 }
 
 //excsc
@@ -147,17 +147,17 @@ if (showEXCSC) {
   v=v-1;
   strokeWeight(1);
   line(MX,MY-R,MX,MY-R-(R*v));
-  
-  if (showLABELS) {lab="Excsc";} else {lab="";} 
+
+  if (showLABELS) {lab="Excsc";} else {lab="";}
   if (showVALUES) {lab=lab+" "+nf(v,1,3);}
   if (showLABELS||showVALUES)
                   {
                    textSize(14);
                    textAlign(LEFT, CENTER);
                    fill(0,148,255);
-                   text(lab,MX+2, ((MY-R)+(MY-R-(R*v)))/2);  
+                   text(lab,MX+2, ((MY-R)+(MY-R-(R*v)))/2);
                   }
-  }                 
+  }
 }
 
 
@@ -170,17 +170,17 @@ if (showCSC) {
   v=1/sin(angle);
   strokeWeight(1);
   line(MX,MY-(R*v),MX,MY);
-  
-  if (showLABELS) {lab="Csc";} else {lab="";} 
+
+  if (showLABELS) {lab="Csc";} else {lab="";}
   if (showVALUES) {lab=lab+" "+nf(v,1,3);}
   if (showLABELS||showVALUES)
                   {
                    textSize(14);
                    textAlign(LEFT, CENTER);
                    fill(255,180,128);
-                   text(lab,5+MX, MY-(v*R)/2);  
+                   text(lab,5+MX, MY-(v*R)/2);
                   }
-  }                 
+  }
 }
 
 
@@ -195,17 +195,17 @@ if (showEXSEC) {
   v=v-1;
   strokeWeight(1);
   line(MX+R,MY,MX+R+(R*v),MY);
-  
-  if (showLABELS) {lab="Exsec";} else {lab="";} 
+
+  if (showLABELS) {lab="Exsec";} else {lab="";}
   if (showVALUES) {lab=lab+" "+nf(v,1,3);}
   if (showLABELS||showVALUES)
                   {
                    textSize(14);
                    textAlign(CENTER, TOP);
                    fill(64,255,164);
-                   text(lab,MX+R+(R*(v/2)), MY+2);  
+                   text(lab,MX+R+(R*(v/2)), MY+2);
                   }
-  }                 
+  }
 }
 
 //vercos
@@ -214,16 +214,16 @@ if (showVERCOS) {
   fill(180,0,255);rect(BL+BW+3,leg(10),7,7);
   strokeWeight(1);
   line(MX,MY-(R*sin(angle)),MX,MY-R);
-  
-  if (showLABELS) {lab="Vercos";} else {lab="";} 
+
+  if (showLABELS) {lab="Vercos";} else {lab="";}
   if (showVALUES) {lab=lab+" "+nf(1-sin(angle),1,3);}
   if (showLABELS||showVALUES)
                   {
                    textSize(14);
                    textAlign(LEFT, CENTER);
                    fill(180,0,255);
-                   text(lab,MX+5, ((MY-(R*sin(angle))+(MY-R))/2));  
-                  }                 
+                   text(lab,MX+5, ((MY-(R*sin(angle))+(MY-R))/2));
+                  }
 }
 
 
@@ -236,17 +236,17 @@ if (showTAN) {
   v=1/cos(angle);
   strokeWeight(1);
   line(MX+(R*cos(angle)),MY-(R*sin(angle)),MX+(R*v),MY);
-  
-  if (showLABELS) {lab="Tan";} else {lab="";} 
+
+  if (showLABELS) {lab="Tan";} else {lab="";}
   if (showVALUES) {lab=lab+" "+nf(tan(angle),1,3);}
   if (showLABELS||showVALUES)
                   {
                    textSize(14);
                    textAlign(LEFT, CENTER);
                    fill(255,128,0);
-                   text(lab,abs(tan(angle)*10)+(R*cos(angle))+MX+((R*v)-(R*cos(angle)))/2, MY-((R/2)*sin(angle)));  
+                   text(lab,abs(tan(angle)*10)+(R*cos(angle))+MX+((R*v)-(R*cos(angle)))/2, MY-((R/2)*sin(angle)));
                   }
-  }                 
+  }
 }
 
 //cot
@@ -258,17 +258,17 @@ if (showCOT) {
   v=1/sin(angle);
   strokeWeight(1);
   line(MX,MY-(R*v),MX+(R*cos(angle)),MY-(R*sin(angle)));
-  
-  if (showLABELS) {lab="Cot";} else {lab="";} 
+
+  if (showLABELS) {lab="Cot";} else {lab="";}
   if (showVALUES) {lab=lab+" "+nf(1/tan(angle),1,3);}
   if (showLABELS||showVALUES)
                   {
                    textSize(14);
                    textAlign(LEFT, CENTER);
                    fill(128,255,255);
-                   text(lab,10+MX+(R*cos(angle))/2, ((MY-(R*v))+(MY-(R*sin(angle))))/2 );  
+                   text(lab,10+MX+(R*cos(angle))/2, ((MY-(R*v))+(MY-(R*sin(angle))))/2 );
                   }
-  }                 
+  }
 }
 
 
@@ -330,12 +330,12 @@ void dbutton(int a, String s, boolean c)
 int sgn(int v)
 {
   if (v>=0) {return 1;} else {return -1;}
-}  
+}
 
 // functions
 
 void mousePressed() {
-  
+
 if (mouseButton==LEFT && mouseX>=BL && mouseX<=(BL+BW) && mouseY>=BT && mouseY<=(BT+BH) ) {showGRID=!showGRID;}
 if (mouseButton==LEFT && mouseX>=BL && mouseX<=(BL+BW) && mouseY>=(BT+(BS*1)) && mouseY<=(BT+(BS*1)+BH)) {showLABELS=!showLABELS;}
 if (mouseButton==LEFT && mouseX>=BL && mouseX<=(BL+BW) && mouseY>=(BT+(BS*2)) && mouseY<=(BT+(BS*2)+BH)) {showVALUES=!showVALUES;}
@@ -349,5 +349,5 @@ if (mouseButton==LEFT && mouseX>=BL && mouseX<=(BL+BW) && mouseY>=(BT+(BS*9)) &&
 if (mouseButton==LEFT && mouseX>=BL && mouseX<=(BL+BW) && mouseY>=(BT+(BS*10)) && mouseY<=(BT+(BS*10)+BH)) {showVERCOS=!showVERCOS;}
 if (mouseButton==LEFT && mouseX>=BL && mouseX<=(BL+BW) && mouseY>=(BT+(BS*11)) && mouseY<=(BT+(BS*11)+BH)) {showEXSEC=!showEXSEC;}
 if (mouseButton==LEFT && mouseX>=BL && mouseX<=(BL+BW) && mouseY>=(BT+(BS*12)) && mouseY<=(BT+(BS*12)+BH)) {showEXCSC=!showEXCSC;}
- 
+
 }
