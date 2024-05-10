@@ -238,7 +238,7 @@ class System:
             self.step(dt=dt)
 
     @property
-    def t_history(self):
+    def t_history(self) -> np.ndarray[tuple[int], FloatingPoint]:
         """
         Get the history of time-steps as an array.
 
@@ -250,7 +250,7 @@ class System:
         return np.array([step.t for step in self.history])
 
     @property
-    def x_history(self):
+    def x_history(self) -> np.ndarray[tuple[int, int, int], FloatingPoint]:
         """
         Get the history of x positions as an array.
 
@@ -268,7 +268,7 @@ class System:
         return x
 
     @property
-    def p_history(self):
+    def p_history(self) -> np.ndarray[tuple[int, int, int], FloatingPoint]:
         """
         Get the history of p momenta as an array.
 
