@@ -36,10 +36,12 @@ dependencies = ["numpy"]
 test = [
   "pytest >=6",
   "pytest-cov >=3",
+  "hypothesis",
 ]
 dev = [
   "pytest >=6",
   "pytest-cov >=3",
+  "hypothesis",
 ]
 docs = [
   "sphinx>=7.0",
